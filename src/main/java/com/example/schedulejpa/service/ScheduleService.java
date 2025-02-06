@@ -34,7 +34,8 @@ public class ScheduleService {
 
     public ScheduleResponseDto findScheduleById(Long id) { // 일정 단건 조회
 
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당하는 일정이 없습니다."));
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당하는 일정이 없습니다."));
 
         return ScheduleResponseDto.toDto(schedule);
     }

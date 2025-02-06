@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +30,16 @@ public class UserService {
                 .stream()
                 .map(UserResponseDto::toDto)
                 .toList();
+    }
+
+    public UserResponseDto findUserById(Long id) { // 사용자 단건 조회
+        User user = userRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("해당되는 사용자가 없습니다."));
+
+        return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreateDate(), user.getUpdateDate());
+    }
+
+    public void deleteUser(Long id) { // 사용자 삭제
+        userRepository.deleteById(id);
     }
 }

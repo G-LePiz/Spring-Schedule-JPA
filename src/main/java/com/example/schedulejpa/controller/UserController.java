@@ -27,8 +27,19 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> findAllUser(){
+    public ResponseEntity<List<UserResponseDto>> findAllUser(){ // 유저 전체 조회
         List<UserResponseDto> findAllUser = userService.findAllUser();
         return new ResponseEntity<>(findAllUser, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> findUserById(@PathVariable Long id){ // 유저 단건 조회
+        UserResponseDto findUserById = userService.findUserById(id);
+        return new ResponseEntity<>(findUserById, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
     }
 }
