@@ -17,16 +17,23 @@ public class ScheduleResponseDto {
 
     private final String todoContents; // 할일 내용
 
+    private final LocalDateTime createDate; // 작성일
 
-    public ScheduleResponseDto(Long id, String writeUsername, String todoTitle, String todoContents) {
+    private final LocalDateTime updateDate; // 수정일
+
+
+    public ScheduleResponseDto(Long id, String writeUsername, String todoTitle, String todoContents,
+                               LocalDateTime createDate, LocalDateTime updateDate) {
         this.id = id;
         this.writeUsername = writeUsername;
         this.todoTitle = todoTitle;
         this.todoContents = todoContents;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
     }
 
     public static ScheduleResponseDto toDto(Schedule schedule){
         return new ScheduleResponseDto(schedule.getId(),
-                schedule.getWriteUsername(), schedule.getTodoTitle(), schedule.getTodoContents());
+                schedule.getWriteUsername(), schedule.getTodoTitle(), schedule.getTodoContents() ,schedule.getCreateDate(), schedule.getUpdateDate());
     }
 }

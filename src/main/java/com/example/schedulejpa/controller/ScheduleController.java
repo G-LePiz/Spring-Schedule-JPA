@@ -5,14 +5,12 @@ import com.example.schedulejpa.dto.ScheduleResponseDto;
 import com.example.schedulejpa.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
@@ -44,4 +42,10 @@ public class ScheduleController {
 
         return new ResponseEntity<>(schedulefindById, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteSchedule(@PathVariable Long id){ // 일정 삭제
+        scheduleService.deleteSchedule(id);
+    }
+
 }
