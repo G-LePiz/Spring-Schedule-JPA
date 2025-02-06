@@ -18,11 +18,15 @@ public class User extends BaseEntity{
     @Column(nullable = false) // 이메일은 필수여야함
     private String email; // 이메일
 
+    @Column(nullable = false) // 비밀번호는 필수여야함
+    private String password; // 비밀번호
 
 
-    public User(String username, String email) {
+
+    public User(String username, String email,String password) {
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public User() {

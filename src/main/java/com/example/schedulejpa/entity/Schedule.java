@@ -23,7 +23,7 @@ public class Schedule extends BaseEntity{
     private String todoContents; // 할일 내용
 
     @ManyToOne
-    @JoinColumn(name = "writeUser_id")
+    @JoinColumn(name = "writeUser_id") // 연관관계 설정
     private User user;
 
     public Schedule(String writeUsername, String todoTitle, String todoContents) {

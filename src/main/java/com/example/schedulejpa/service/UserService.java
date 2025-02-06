@@ -18,8 +18,8 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public UserResponseDto saveUser(String username, String email) { // 사용자 추가
-        User user = new User(username, email);
+    public UserResponseDto saveUser(String username, String email, String password) { // 사용자 추가
+        User user = new User(username, email, password);
         userRepository.save(user);
 
         return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreateDate(), user.getUpdateDate());
