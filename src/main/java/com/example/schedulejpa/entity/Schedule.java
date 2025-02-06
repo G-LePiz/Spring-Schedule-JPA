@@ -19,8 +19,12 @@ public class Schedule extends BaseEntity{
     @Column(nullable = false) // 제목은 필수여야함
     private String todoTitle; // 할일 제목
 
-    @Column
+    @Column(columnDefinition = "longtext")
     private String todoContents; // 할일 내용
+
+    @ManyToOne
+    @JoinColumn(name = "writeUser_id")
+    private User user;
 
     public Schedule(String writeUsername, String todoTitle, String todoContents) {
         this.writeUsername = writeUsername;

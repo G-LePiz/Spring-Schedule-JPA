@@ -19,6 +19,7 @@ public class User extends BaseEntity{
     private String email; // 이메일
 
 
+
     public User(String username, String email) {
         this.username = username;
         this.email = email;
