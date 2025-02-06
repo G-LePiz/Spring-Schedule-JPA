@@ -11,4 +11,24 @@ public class Schedule extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // id
+
+    @Column(nullable = false) // 작성 유저명은 필수여야함
+    private String writeUsername; // 작성 유저명
+
+    @Column(nullable = false) // 제목은 필수여야함
+    private String todoTitle; // 할일 제목
+
+    @Column
+    private String todoContents; // 할일 내용
+
+    public Schedule(String writeUsername, String todoTitle, String todoContents) {
+        this.writeUsername = writeUsername;
+        this.todoTitle = todoTitle;
+        this.todoContents = todoContents;
+    }
+
+    public Schedule() {
+
+    }
 }
