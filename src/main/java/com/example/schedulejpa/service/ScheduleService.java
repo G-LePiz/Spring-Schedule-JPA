@@ -23,6 +23,10 @@ public class ScheduleService {
         return new ScheduleResponseDto(schedule.getId(),schedule.getWriteUsername(),schedule.getTodoTitle(), schedule.getTodoContents());
     }
 
-//    public List<ScheduleResponseDto> findAllSchedule() {
-//    }
+    public List<ScheduleResponseDto> findAllSchedule() {
+        return scheduleRepository.findAll()
+                .stream()
+                .map(ScheduleResponseDto::toDto)
+                .toList();
+    }
 }

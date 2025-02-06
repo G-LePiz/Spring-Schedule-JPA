@@ -34,10 +34,10 @@ public class ScheduleController {
         return new ResponseEntity<>(saveScheduleDto, HttpStatus.CREATED); // 저장된 일정을 출력
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(){
-//        List<ScheduleResponseDto> allSchedule = scheduleService.findAllSchedule(); // 서비스 단에서 전체 일정을 불러옴
-//
-//        return new ResponseEntity<>(allSchedule, HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(){
+        List<ScheduleResponseDto> allSchedule = scheduleService.findAllSchedule(); // 서비스 단에서 전체 일정을 불러옴
+
+        return new ResponseEntity<>(allSchedule, HttpStatus.OK);
+    }
 }
