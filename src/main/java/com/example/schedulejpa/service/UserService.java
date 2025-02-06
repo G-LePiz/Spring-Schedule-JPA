@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -20,5 +22,12 @@ public class UserService {
         userRepository.save(user);
 
         return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreateDate(), user.getUpdateDate());
+    }
+
+    public List<UserResponseDto> findAllUser() { // 사용자 전체 조회
+        return userRepository.findAll()
+                .stream()
+                .map(UserResponseDto::toDto)
+                .toList();
     }
 }
