@@ -16,7 +16,7 @@ public class LoginResponseDto {
         this.username = username;
     }
 
-    public void setSessionid(String sessionid){
+    public void setSessionid(String sessionid){ // 세션 아이디가 제대로 작동하는지 확인
         this.sessionid = sessionid;
     }
 }
