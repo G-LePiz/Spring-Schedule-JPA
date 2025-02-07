@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "user")
-public class User extends BaseEntity{
+public class User extends BaseEntity{ // BaseEnity에게 상속을 받아야 작성일, 수정일 사용가능
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

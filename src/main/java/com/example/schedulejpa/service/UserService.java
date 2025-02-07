@@ -1,5 +1,7 @@
 package com.example.schedulejpa.service;
 
+import com.example.schedulejpa.dto.LoginDto;
+import com.example.schedulejpa.dto.LoginResponseDto;
 import com.example.schedulejpa.dto.UserRequestDto;
 import com.example.schedulejpa.dto.UserResponseDto;
 import com.example.schedulejpa.entity.User;
@@ -18,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public UserResponseDto saveUser(String username, String email, String password) { // 사용자 추가
+    public UserResponseDto saveUser(String username, String email, String password) { // 사용자 추가, 회원가입
         User user = new User(username, email, password);
         userRepository.save(user);
 
@@ -41,5 +43,16 @@ public class UserService {
 
     public void deleteUser(Long id) { // 사용자 삭제
         userRepository.deleteById(id);
+    }
+
+    public LoginResponseDto loginUser(String email, String password){
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("사용자가 없습니다."));
+
+        if (!user.getPassword().equals(password)){
+            throw new RuntimeException("사용자 맞지않습니다.");
+        }
+
+        return new LoginResponseDto(user.getEmail(), user.getUsername());
     }
 }

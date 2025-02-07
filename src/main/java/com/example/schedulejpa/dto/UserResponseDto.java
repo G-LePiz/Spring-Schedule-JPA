@@ -27,6 +27,7 @@ public class UserResponseDto {
         this.updateDate = updateDate;
     }
 
+
     public static UserResponseDto toDto(User user){
         return new UserResponseDto(user.getId(),
                 user.getUsername(), user.getEmail(), user.getCreateDate(), user.getUpdateDate());
