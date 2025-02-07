@@ -1,18 +1,15 @@
 package com.example.schedulejpa.controller;
 
-import com.example.schedulejpa.dto.LoginDto;
+import com.example.schedulejpa.dto.LoginRequestDto;
 import com.example.schedulejpa.dto.LoginResponseDto;
 import com.example.schedulejpa.dto.UserRequestDto;
 import com.example.schedulejpa.dto.UserResponseDto;
-import com.example.schedulejpa.entity.User;
 import com.example.schedulejpa.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +34,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> loginUser(HttpServletRequest request, @RequestBody LoginDto loginDto){ // 유저 로그인
+    public ResponseEntity<LoginResponseDto> loginUser(HttpServletRequest request, @RequestBody LoginRequestDto loginDto){ // 유저 로그인
 
         LoginResponseDto loginUser = userService.loginUser(loginDto.getEmail(), loginDto.getPassword());
 

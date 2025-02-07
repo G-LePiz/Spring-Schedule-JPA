@@ -1,17 +1,13 @@
 package com.example.schedulejpa.service;
 
-import com.example.schedulejpa.dto.LoginDto;
 import com.example.schedulejpa.dto.LoginResponseDto;
-import com.example.schedulejpa.dto.UserRequestDto;
 import com.example.schedulejpa.dto.UserResponseDto;
 import com.example.schedulejpa.entity.User;
 import com.example.schedulejpa.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +41,15 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public LoginResponseDto loginUser(String email, String password){
+    public LoginResponseDto loginUser(String email, String password){ // 로그인 기능
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 없습니다."));
 
         if (!user.getPassword().equals(password)){
-            throw new RuntimeException("사용자 맞지않습니다.");
+            throw new RuntimeException("사용자가 맞지않습니다.");
+        }
+        if(!user.getEmail().equals(email)){
+            throw new RuntimeException("사용자가 맞지않습니다.");
         }
 
         return new LoginResponseDto(user.getEmail(), user.getUsername());
