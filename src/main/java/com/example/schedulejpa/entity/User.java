@@ -1,5 +1,6 @@
 package com.example.schedulejpa.entity;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ public class User extends BaseEntity{ // BaseEnity에게 상속을 받아야 작
     public User(String username, String email,String password) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.password = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, password.toCharArray()); // 인코딩 암호화를 해버림
     }
 
     public User() {
@@ -37,5 +38,10 @@ public class User extends BaseEntity{ // BaseEnity에게 상속을 받아야 작
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public boolean matchPassword(String password) { // 입력한 비밀번호가 암호화된 비밀번호와 같은지 확인
+        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), this.password);
+        return result.verified;
     }
 }

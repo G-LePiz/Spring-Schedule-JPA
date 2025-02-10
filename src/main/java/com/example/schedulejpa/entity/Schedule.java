@@ -4,6 +4,9 @@ package com.example.schedulejpa.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "schedule")
@@ -23,8 +26,12 @@ public class Schedule extends BaseEntity{ // BaseEnity에게 상속을 받아야
     private String todoContents; // 할일 내용
 
     @ManyToOne
-    @JoinColumn(name = "writeUser_id") // 연관관계 설정
+    @JoinColumn(name = "user_id") // 연관관계 설정 // 유저 고유 식별자
     private User user;
+
+    @OneToMany
+    @JoinColumn(name = "schedule_id")
+    private List<Schedule> schedules = new ArrayList<>();
 
     public Schedule(String writeUsername, String todoTitle, String todoContents) {
         this.writeUsername = writeUsername;
