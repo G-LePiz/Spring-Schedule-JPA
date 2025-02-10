@@ -48,9 +48,6 @@ public class UserService {
         if (!user.getPassword().equals(password)){
             throw new RuntimeException("사용자가 맞지않습니다.");
         }
-        if(!user.getEmail().equals(email)){
-            throw new RuntimeException("사용자가 맞지않습니다.");
-        }
 
         return new LoginResponseDto(user.getEmail(), user.getUsername());
     }

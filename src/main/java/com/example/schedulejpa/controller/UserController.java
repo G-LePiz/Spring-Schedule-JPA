@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signin")
+    @PostMapping("/users/signin")
     public ResponseEntity<UserResponseDto> saveUser(@RequestBody UserRequestDto requestDto){ // 유저 생성
         UserResponseDto userResponseDto = userService.saveUser(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
 
@@ -33,7 +32,7 @@ public class UserController {
      * @param loginDto
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public ResponseEntity<LoginResponseDto> loginUser(HttpServletRequest request, @RequestBody LoginRequestDto loginDto){ // 유저 로그인
 
         LoginResponseDto loginUser = userService.loginUser(loginDto.getEmail(), loginDto.getPassword());
@@ -49,20 +48,20 @@ public class UserController {
 
     }
 
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<UserResponseDto>> findAllUser(){ // 유저 전체 조회
         List<UserResponseDto> findAllUser = userService.findAllUser();
         return new ResponseEntity<>(findAllUser, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<UserResponseDto> findUserById(@PathVariable Long id){ // 유저 단건 조회
         UserResponseDto findUserById = userService.findUserById(id);
         return new ResponseEntity<>(findUserById, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id){
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id){ // 유저 삭제
         userService.deleteUser(id);
     }
 }
