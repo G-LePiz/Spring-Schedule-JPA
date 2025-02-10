@@ -7,6 +7,7 @@ import com.example.schedulejpa.dto.UserResponseDto;
 import com.example.schedulejpa.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/signin")
-    public ResponseEntity<UserResponseDto> saveUser(@RequestBody UserRequestDto requestDto){ // 유저 생성
+    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserRequestDto requestDto){ // 유저 생성
         UserResponseDto userResponseDto = userService.saveUser(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
@@ -58,6 +59,14 @@ public class UserController {
     public ResponseEntity<UserResponseDto> findUserById(@PathVariable Long id){ // 유저 단건 조회
         UserResponseDto findUserById = userService.findUserById(id);
         return new ResponseEntity<>(findUserById, HttpStatus.OK);
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
+                                                      @RequestBody UserRequestDto requestDto){ // 유저 수정
+        userService.update(id, requestDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")

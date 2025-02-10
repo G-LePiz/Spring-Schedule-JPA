@@ -45,7 +45,20 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void deleteSchedule(Long id) { // 일정 삭제
-        scheduleRepository.deleteById(id);
+    public ScheduleResponseDto update(Long id, ScheduleRequestDto requestDto) { // 일정 수정
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("일정 수정이 불가능")
+        );
+
+        schedule.update(requestDto.getTodoTitle(), requestDto.getTodoContents(), requestDto.getWriteUsername());
+
+        return new ScheduleResponseDto(schedule.getId(), schedule.getWriteUsername(), schedule.getTodoTitle(), schedule.getTodoContents(), schedule.getCreateDate(), schedule.getUpdateDate());
     }
+
+    @Transactional
+    public void deleteSchedule(Long id) {
+
+    }
+
+
 }

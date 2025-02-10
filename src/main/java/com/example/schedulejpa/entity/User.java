@@ -32,4 +32,10 @@ public class User extends BaseEntity{ // BaseEnity에게 상속을 받아야 작
     public User() {
 
     }
+
+    public void update(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }

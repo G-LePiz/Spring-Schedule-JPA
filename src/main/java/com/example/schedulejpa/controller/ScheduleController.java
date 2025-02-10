@@ -42,6 +42,13 @@ public class ScheduleController {
         return new ResponseEntity<>(schedulefindById, HttpStatus.OK);
     }
 
+    @PutMapping("/schedules/{id}")
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
+        scheduleService.update(id, requestDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/schedules/{id}")
     public void deleteSchedule(@PathVariable Long id){ // 일정 삭제
         scheduleService.deleteSchedule(id);

@@ -35,4 +35,10 @@ public class Schedule extends BaseEntity{ // BaseEnity에게 상속을 받아야
     public Schedule() {
 
     }
+
+    public void update(String todoTitle, String todoContents, String writeUsername) {
+        this.todoTitle = todoTitle;
+        this.todoContents = todoContents;
+        this.writeUsername = writeUsername;
+    }
 }
