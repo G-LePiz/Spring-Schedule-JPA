@@ -3,6 +3,7 @@ package com.example.schedulejpa.service;
 import com.example.schedulejpa.dto.LoginResponseDto;
 import com.example.schedulejpa.dto.UserResponseDto;
 import com.example.schedulejpa.entity.User;
+import com.example.schedulejpa.exception.PasswordAndEmailException;
 import com.example.schedulejpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,8 +46,8 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 없습니다."));
 
-        if (!user.getPassword().equals(password)){
-            throw new RuntimeException("사용자가 맞지않습니다.");
+        if (!user.getPassword().equals(password) && !user.getEmail().equals(email)){ // 이메일과 비밀번호가 맞지않는 경우에는 401 에러처리
+            throw new PasswordAndEmailException();
         }
 
         return new LoginResponseDto(user.getEmail(), user.getUsername());
