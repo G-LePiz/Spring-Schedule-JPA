@@ -3,10 +3,12 @@ package com.example.schedulejpa.entity;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User extends BaseEntity{ // BaseEnity에게 상속을 받아야 작성일, 수정일 사용가능
 
     @Id
@@ -30,9 +32,6 @@ public class User extends BaseEntity{ // BaseEnity에게 상속을 받아야 작
         this.password = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, password.toCharArray()); // 인코딩 암호화를 해버림
     }
 
-    public User() {
-
-    }
 
     public void update(String username, String password, String email) {
         this.username = username;
