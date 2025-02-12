@@ -21,13 +21,13 @@ public class UserService {
 
     @Transactional
     public UserResponseDto saveUser(String username, String email, String password) { // 사용자 추가, 회원가입
-        User user = new User(username, email, password);
-
         boolean isExist = userRepository.existsByEmail(email);
 
         if (isExist){
             throw new CustomException(ExceptionStatus.EMAIL_IS_EXIST);
         }
+
+        User user = new User(username, email, password);
 
         userRepository.save(user);
 

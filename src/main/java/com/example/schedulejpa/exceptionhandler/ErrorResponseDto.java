@@ -10,6 +10,6 @@ import org.springframework.http.HttpStatusCode;
 public class ErrorResponseDto{
 
     private final String message;
-    private final int errorCode;
+    private final HttpStatus errorCode;
 
 }

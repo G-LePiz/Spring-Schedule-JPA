@@ -13,7 +13,7 @@ public class ExceptionAdviceHandler {
     @ExceptionHandler(exception = CustomException.class)
     public ResponseEntity<ErrorResponseDto> handleCustomException(CustomException e){
         log.error("code : {} / message : {}", e.getMessage(), e.getExceptionStatus());
-        return new ResponseEntity(new ErrorResponseDto(e.getExceptionStatus().getMessage(), e.getExceptionStatus().getErrorCode()), HttpStatus.valueOf(e.getExceptionStatus().getErrorCode()));
+        return new ResponseEntity(new ErrorResponseDto(e.getExceptionStatus().getMessage(), e.getExceptionStatus().getErrorCode()), e.getExceptionStatus().getErrorCode());
     }
 
 }
