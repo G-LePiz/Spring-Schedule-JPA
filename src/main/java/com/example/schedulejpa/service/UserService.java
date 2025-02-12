@@ -4,8 +4,6 @@ import com.example.schedulejpa.dto.LoginResponseDto;
 import com.example.schedulejpa.dto.UserRequestDto;
 import com.example.schedulejpa.dto.UserResponseDto;
 import com.example.schedulejpa.entity.User;
-import com.example.schedulejpa.exception.PasswordAndEmailException;
-import com.example.schedulejpa.exception.DuplicationError;
 import com.example.schedulejpa.exceptionhandler.CustomException;
 import com.example.schedulejpa.exceptionhandler.ExceptionStatus;
 import com.example.schedulejpa.repository.UserRepository;
@@ -63,11 +61,7 @@ public class UserService {
                 () -> new CustomException(ExceptionStatus.EMAIL_DO_NOT_MATCH));
 
         if (!user.matchPassword(password)){ // 이메일과 비밀번호가 맞지않는 경우에는 401 에러처리
-            throw new PasswordAndEmailException();
-        }
-
-        if(user.getEmail().equals(email)){
-            throw new DuplicationError();
+            throw new CustomException(ExceptionStatus.PASSWORD_DO_NOT_MATCH);
         }
 
         return new LoginResponseDto(user.getEmail(), user.getUsername());

@@ -60,9 +60,9 @@ public class ScheduleController {
 
         String sessionKey = (String) session.getAttribute("sessionKey");
 
-        scheduleService.update(sessionKey, id, requestDto);
+        ScheduleResponseDto update = scheduleService.update(sessionKey, id, requestDto);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(update, HttpStatus.OK);
     }
 
     @DeleteMapping("/schedules/{id}")

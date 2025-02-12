@@ -19,8 +19,10 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
-    @PostMapping("/comments")
-    public ResponseEntity<CommentResponseDto> save(HttpServletRequest request, @RequestBody CommentRequestDto commentRequestDto){
+    @PostMapping("/schedules/{scheduleId}/comments")
+    public ResponseEntity<CommentResponseDto> save(HttpServletRequest request,
+                                                   @PathVariable Long scheduleId,
+                                                   @RequestBody CommentRequestDto commentRequestDto){
 
         HttpSession session = request.getSession(false);
         if (session == null) {
@@ -28,7 +30,7 @@ public class CommentController {
         }
         String userEmail = (String) session.getAttribute("sessionKey");
 
-        CommentResponseDto save = commentService.save(commentRequestDto.getComment(), commentRequestDto.getScheduleId(), userEmail);
+        CommentResponseDto save = commentService.save(commentRequestDto.getComment(), scheduleId/*commentRequestDto.getScheduleId()*/, userEmail);
 
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
@@ -47,7 +49,7 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @PutMapping("{scheduleId}/comments/{commentId}")
+    @PutMapping("/schedules/{scheduleId}/comments/{commentId}")
     public ResponseEntity<CommentResponseDto> updateComment(HttpServletRequest request,
                                                             @PathVariable Long scheduleId,
                                                             @PathVariable Long commentId,
