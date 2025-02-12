@@ -49,7 +49,7 @@ public class ScheduleService {
     public ScheduleResponseDto findScheduleById(Long id) { // 일정 단건 조회
 
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당하는 일정이 없습니다."));
+                () -> new CustomException(ExceptionStatus.SCHEDULE_DOES_NOT_EXIST));
 
         return ScheduleResponseDto.toDto(schedule);
     }
@@ -57,7 +57,7 @@ public class ScheduleService {
     @Transactional
     public ScheduleResponseDto update(String sessionKey,Long id, ScheduleRequestDto requestDto) { // 일정 수정
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("일정 수정이 불가능")
+                () -> new CustomException(ExceptionStatus.CANNOT_UPDATE)
         );
 //        User user = userRepository.findByEmail(sessionKey).orElseThrow(
 //                ()-> new CustomException(ExceptionStatus.EMAIL_DO_NOT_MATCH)

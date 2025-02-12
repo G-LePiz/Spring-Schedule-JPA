@@ -20,10 +20,4 @@ public class UserRequestDto {
     @NotBlank(message = "비밀번호를 입력하세요.")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*\\W)[^\\s]{8,16}$", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     private String password; // 비밀번호
-
-//    public UserRequestDto(String username, String email, String password) {
-//        this.username = username;
-//        this.email = email;
-//        this.password = password;
-//    }
 }

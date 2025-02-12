@@ -42,7 +42,7 @@ public class UserController {
             session = request.getSession(true);
         }
         session.setAttribute("sessionKey", loginUser.getEmail());
-        loginUser.setSessionid(session.getId());
+        //loginUser.setSessionid(session.getId());
 
         return new ResponseEntity<>(loginUser, HttpStatus.OK);
 

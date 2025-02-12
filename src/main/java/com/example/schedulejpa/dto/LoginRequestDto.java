@@ -9,8 +9,5 @@ public class LoginRequestDto {
 
     private String password; // 비밀번호
 
-//    public LoginRequestDto(String email, String password) {
-//        this.email = email;
-//        this.password = password;
-//    }
+
 }

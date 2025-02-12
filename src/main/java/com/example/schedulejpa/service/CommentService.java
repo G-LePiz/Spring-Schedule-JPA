@@ -71,10 +71,7 @@ public class CommentService {
                 () -> new IllegalArgumentException("수정할 수 없습니다.")
         );
 
-        comment.update(commentRequestDto.getComment()); // 변경감지
-
-        // 영속성 => 엔티티에 저장
-
+        comment.update(commentRequestDto.getComment()); // 변경감지, 영속성 => 엔티티에 저장
 
         return new CommentResponseDto(comment.getId(), comment.getComment(), comment.getSchedule().getId());
     }
