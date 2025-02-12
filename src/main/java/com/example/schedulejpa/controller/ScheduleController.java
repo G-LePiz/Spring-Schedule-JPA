@@ -2,7 +2,10 @@ package com.example.schedulejpa.controller;
 
 import com.example.schedulejpa.dto.ScheduleRequestDto;
 import com.example.schedulejpa.dto.ScheduleResponseDto;
+import com.example.schedulejpa.repository.UserRepository;
 import com.example.schedulejpa.service.ScheduleService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +18,18 @@ import java.util.List;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final UserRepository userRepository;
 
     @PostMapping("/schedules")
-    public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleRequestDto requestDto){ // 일정 추가
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(HttpServletRequest request,
+                                                            @RequestBody ScheduleRequestDto requestDto){ // 일정 추가
+
+        HttpSession session = request.getSession(false);
+
+        String sessionKey = (String) session.getAttribute("sessionKey");
 
         ScheduleResponseDto saveScheduleDto = scheduleService.saveSchedule( // 서비스 단으로 작섣된 스케줄을 저장
-                requestDto.getWriteUsername(),
+                sessionKey,
                 requestDto.getTodoTitle(),
                 requestDto.getTodoContents()
         );
@@ -43,8 +52,15 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedules/{id}")
-    public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
-        scheduleService.update(id, requestDto);
+    public ResponseEntity<ScheduleResponseDto> update(HttpServletRequest request,
+                                                      @PathVariable Long id,
+                                                      @RequestBody ScheduleRequestDto requestDto){
+
+        HttpSession session = request.getSession(false);
+
+        String sessionKey = (String) session.getAttribute("sessionKey");
+
+        scheduleService.update(sessionKey, id, requestDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

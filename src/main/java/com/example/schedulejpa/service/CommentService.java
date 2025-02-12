@@ -43,8 +43,8 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentResponseDto> findAllComment() {
-        List<Comment> comments = commentRepository.findAll();
+    public List<CommentResponseDto> findAllComment(Long scheduleId) {
+        List<Comment> comments = commentRepository.findAllBySchedule_Id(scheduleId);
         List<CommentResponseDto> dtos = new ArrayList<>();
 
         for (Comment comment : comments) {
@@ -55,8 +55,8 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public CommentResponseDto findCommentById(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
+    public CommentResponseDto findCommentById(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("댓글이 없습니다.")
         );
 
@@ -64,12 +64,17 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto updateComment(Long id, CommentRequestDto commentRequestDto) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
+    public CommentResponseDto updateComment(Long scheduleId, Long commentId, String userEmail, CommentRequestDto commentRequestDto) {
+        //User user = userRepository.findByEmail(userEmail).orElseThrow();
+
+        Comment comment = commentRepository.findByIdAndSchedule_IdAndUser_Email(commentId, scheduleId, userEmail).orElseThrow(
                 () -> new IllegalArgumentException("수정할 수 없습니다.")
         );
 
-        comment.update(commentRequestDto.getComment());
+        comment.update(commentRequestDto.getComment()); // 변경감지
+
+        // 영속성 => 엔티티에 저장
+
 
         return new CommentResponseDto(comment.getId(), comment.getComment(), comment.getSchedule().getId());
     }

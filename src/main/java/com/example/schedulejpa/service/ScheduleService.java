@@ -4,7 +4,11 @@ import com.example.schedulejpa.dto.ScheduleRequestDto;
 import com.example.schedulejpa.dto.ScheduleResponseDto;
 import com.example.schedulejpa.entity.BaseEntity;
 import com.example.schedulejpa.entity.Schedule;
+import com.example.schedulejpa.entity.User;
+import com.example.schedulejpa.exceptionhandler.CustomException;
+import com.example.schedulejpa.exceptionhandler.ExceptionStatus;
 import com.example.schedulejpa.repository.ScheduleRepository;
+import com.example.schedulejpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -18,10 +22,16 @@ import java.util.Optional;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public ScheduleResponseDto saveSchedule(String writeUsername, String todoTitle, String todoContents) { // 일정 추가
-        Schedule schedule = new Schedule(writeUsername, todoTitle, todoContents);
+    public ScheduleResponseDto saveSchedule(String sessionKey, String todoTitle, String todoContents) { // 일정 추가
+
+        User user = userRepository.findByEmail(sessionKey).orElseThrow(
+                ()-> new CustomException(ExceptionStatus.EMAIL_DO_NOT_MATCH)
+        );
+
+        Schedule schedule = new Schedule(user, todoTitle, todoContents);
         scheduleRepository.save(schedule);
 
         return ScheduleResponseDto.toDto(schedule);
@@ -45,14 +55,21 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ScheduleResponseDto update(Long id, ScheduleRequestDto requestDto) { // 일정 수정
+    public ScheduleResponseDto update(String sessionKey,Long id, ScheduleRequestDto requestDto) { // 일정 수정
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("일정 수정이 불가능")
         );
+//        User user = userRepository.findByEmail(sessionKey).orElseThrow(
+//                ()-> new CustomException(ExceptionStatus.EMAIL_DO_NOT_MATCH)
+//        );
 
-        schedule.update(requestDto.getTodoTitle(), requestDto.getTodoContents(), requestDto.getWriteUsername());
+        if (!schedule.getUser().getEmail().equals(sessionKey)){
+            throw new CustomException(ExceptionStatus.UPDATE_UNAUTHORIZED);
+        }
 
-        return new ScheduleResponseDto(schedule.getId(), schedule.getWriteUsername(), schedule.getTodoTitle(), schedule.getTodoContents(), schedule.getCreateDate(), schedule.getUpdateDate());
+        schedule.update(requestDto.getTodoTitle(), requestDto.getTodoContents());
+
+        return new ScheduleResponseDto(schedule.getId(), schedule.getUser().getUsername(), schedule.getTodoTitle(), schedule.getTodoContents(), schedule.getCreateDate(), schedule.getUpdateDate());
     }
 
     @Transactional

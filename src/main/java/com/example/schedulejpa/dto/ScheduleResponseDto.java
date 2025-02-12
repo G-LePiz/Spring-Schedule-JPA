@@ -34,6 +34,6 @@ public class ScheduleResponseDto {
 
     public static ScheduleResponseDto toDto(Schedule schedule){
         return new ScheduleResponseDto(schedule.getId(),
-                schedule.getWriteUsername(), schedule.getTodoTitle(), schedule.getTodoContents() ,schedule.getCreateDate(), schedule.getUpdateDate());
+                schedule.getUser().getUsername(), schedule.getTodoTitle(), schedule.getTodoContents() ,schedule.getCreateDate(), schedule.getUpdateDate());
     }
 }

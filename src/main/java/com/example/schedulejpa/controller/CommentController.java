@@ -6,6 +6,7 @@ import com.example.schedulejpa.repository.CommentRepository;
 import com.example.schedulejpa.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,28 +33,40 @@ public class CommentController {
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
-    @GetMapping("/comments")
-    public ResponseEntity<List<CommentResponseDto>> findAllComment(){
-        List<CommentResponseDto> allComment = commentService.findAllComment();
+    @GetMapping("/comments/find/{scheduleId}")
+    public ResponseEntity<List<CommentResponseDto>> findAllComment(@PathVariable Long scheduleId){
+        List<CommentResponseDto> allComment = commentService.findAllComment(scheduleId);
 
         return new ResponseEntity<>(allComment, HttpStatus.OK);
     }
 
-    @GetMapping("/comments/{id}")
-    public ResponseEntity<CommentResponseDto> findCommentById(@PathVariable Long id){
-        CommentResponseDto comment = commentService.findCommentById(id);
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> findCommentById(@PathVariable Long commentId){
+        CommentResponseDto comment = commentService.findCommentById(commentId);
 
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @PostMapping("/comments/{id}")
-    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long id,
+    @PutMapping("{scheduleId}/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(HttpServletRequest request,
+                                                            @PathVariable Long scheduleId,
+                                                            @PathVariable Long commentId,
                                                             @RequestBody CommentRequestDto commentRequestDto){
-        commentService.updateComment(id, commentRequestDto);
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            session = request.getSession(true);
+        }
+        String userEmail = (String) session.getAttribute("sessionKey");
+
+        CommentResponseDto commentResponseDto = commentService.updateComment(scheduleId, commentId, userEmail, commentRequestDto);
+
+        return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/comments/{id}")
-    public void deleteComment(@PathVariable Long id){
-        commentService.delete(id);
+    @DeleteMapping("{scheduleId}/comments/{commentId}")
+    public void deleteComment(@PathVariable Long commentId){
+        commentService.delete(commentId);
+
+
     }
 }

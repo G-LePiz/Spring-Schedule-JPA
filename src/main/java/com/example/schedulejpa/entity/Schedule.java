@@ -18,9 +18,6 @@ public class Schedule extends BaseEntity{ // BaseEnity에게 상속을 받아야
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // id
 
-    @Column(nullable = false) // 작성 유저명은 필수여야함
-    private String writeUsername; // 작성 유저명
-
     @Column(nullable = false) // 제목은 필수여야함
     private String todoTitle; // 할일 제목
 
@@ -34,15 +31,14 @@ public class Schedule extends BaseEntity{ // BaseEnity에게 상속을 받아야
     @OneToMany(mappedBy = "schedule") // 1:N 관계에서 1인 엔티티의 필드에 작성, 1은 일정이고, N은 댓글들
     private List<Comment> comments = new ArrayList<>();
 
-    public Schedule(String writeUsername, String todoTitle, String todoContents) {
-        this.writeUsername = writeUsername;
+    public Schedule(User user, String todoTitle, String todoContents) {
+        this.user = user;
         this.todoTitle = todoTitle;
         this.todoContents = todoContents;
     }
 
-    public void update(String todoTitle, String todoContents, String writeUsername) {
+    public void update(String todoTitle, String todoContents) {
         this.todoTitle = todoTitle;
         this.todoContents = todoContents;
-        this.writeUsername = writeUsername;
     }
 }
