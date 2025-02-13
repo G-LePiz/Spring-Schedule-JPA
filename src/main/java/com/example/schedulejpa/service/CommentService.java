@@ -65,7 +65,6 @@ public class CommentService {
 
     @Transactional
     public CommentResponseDto updateComment(Long scheduleId, Long commentId, String userEmail, CommentRequestDto commentRequestDto) {
-        //User user = userRepository.findByEmail(userEmail).orElseThrow();
 
         Comment comment = commentRepository.findByIdAndSchedule_IdAndUser_Email(commentId, scheduleId, userEmail).orElseThrow(
                 () -> new IllegalArgumentException("수정할 수 없습니다.")

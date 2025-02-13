@@ -12,10 +12,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findByIdAndSchedule_IdAndUser_Email(Long id, Long scheduleId, String userEmail);
 
-//    @Query("")
-//    // cooment, 스케줄 id가 같아야함
-//    // comment에 user id
-//    // where 절에는 useremail
-//    // 이너 조인
 
 }

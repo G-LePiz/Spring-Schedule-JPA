@@ -32,7 +32,7 @@ public class CommentController {
         }
         String userEmail = (String) session.getAttribute("sessionKey");
 
-        CommentResponseDto save = commentService.save(commentRequestDto.getComment(), scheduleId/*commentRequestDto.getScheduleId()*/, userEmail);
+        CommentResponseDto save = commentService.save(commentRequestDto.getComment(), scheduleId, userEmail);
 
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
