@@ -23,7 +23,6 @@ public class CommentController {
 
     @PostMapping("/schedules/{scheduleId}/comments")
     public ResponseEntity<CommentResponseDto> save(HttpServletRequest request,
-                                                   PageRequest pageRequest,
                                                    @PathVariable Long scheduleId,
                                                    @RequestBody CommentRequestDto commentRequestDto){
 
